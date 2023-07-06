@@ -1,17 +1,17 @@
-#Propri media
+#Propri de la media mu
 tau_pri=1/50^2
 mu_pri=200
 
-#curve: grafica funcion 
+#curve: funcion que grafica una funcion 
 curve(dnorm(x, mean = mu_pri, sd = 1/sqrt(tau_pri)), from = 0, to = 350)
 
-#priori tau
+#priori precicison tau
 alpha_pri=10
 beta_pri=0.002
 curve(dgamma(x, shape = alpha_pri, scale = beta_pri), from = 0, to = .05)
 
 
-#Priori conjunta
+#Priori distribucion conjunta
 mu_mall=seq(50, 300, length.out = 100)
 tau_mall=seq(0,.05,length.out=100)
 priori<-function(mu, tau){
@@ -21,9 +21,9 @@ priori<-function(mu, tau){
 }
 #outer (x,y,funcion) hace el producto cartesiano y evalua en la funcion
 priori_mall=outer(mu_mall, tau_mall, priori)
-#grafica densidad funcion R^2 a R
+#grafica la densidad de una funcion R^2 a R
 image(mu_mall, tau_mall, priori_mall)
-#contuor grafica las curvas dee nivel 
+#contuor, grafica las curvas dee nivel 
 contour(mu_mall, tau_mall, priori_mall, add = TRUE)
 
 #Simular gausiana
@@ -89,8 +89,8 @@ dens_chain=kde2d(chain[,1], chain[,2], n = 100,lim=c(range(mumall),c(range(tauma
 image(dens_chain, xlim = range(mumall), ylim = range(taumall))
 contour(dens_chain, add = TRUE)
         
-#Introducción Coda
+#Introducción Coda, investigar para que sirve
 library(coda)
-chain <- mcmc(chain)
+chain=mcmc(chain)
 summary(chain)
 plot(chain)
